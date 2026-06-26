@@ -1,0 +1,200 @@
+//
+// Created by Aryaman Sahu on 25/06/26.
+//
+
+#ifndef RUBIKS_CUBE_SOLVER_GENERICRUBIKSCUBE_H
+#define RUBIKS_CUBE_SOLVER_GENERICRUBIKSCUBE_H
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+/**
+ * A base class for all Rubik's Cube Model. There are various representation for Rubik's Cube.
+ * Each one has its own special ways of definitions. This class provides a shared functionality
+ * between all models.
+ * We'll benchmark all models and observe which one is better for performance.
+ */
+
+class GenericRubiksCube {
+public:
+    enum class COLOR {
+        WHITE,
+        GREEN,
+        RED,
+        BLUE,
+        ORANGE,
+        YELLOW,
+        UNKNOWN
+    };
+    enum class FACE {
+        UP,
+        LEFT,
+        FRONT,
+        RIGHT,
+        BACK,
+        DOWN
+    };
+    enum class MOVE {
+        L, LPRIME, L2,
+        R, RPRIME, R2,
+        U, UPRIME, U2,
+        D, DPRIME, D2,
+        F, FPRIME, F2,
+        B, BPRIME, B2
+    };
+
+    /*
+    * Returns the color of the cell at (row, col) in face.
+    * If Rubik's Cube face is pointing at you, then the row numbering starts from the
+    * top to bottom, and column numbering starts from the left to right.
+    * The rows and columns are 0-indexed.
+    * @param Face, row, and column index
+    */
+    [[nodiscard]] virtual COLOR getColor(FACE face,unsigned int row, unsigned int col) const=0;
+
+
+    /*
+    * Sets the color of the cell at (row, col) in the given face.
+    * If Rubik's Cube face is pointing at you, then the row numbering starts from the
+    * top to bottom, and column numbering starts from the left to right.
+    * The rows and columns are 0-indexed.
+    * @param Face, row, column and color.
+    */
+    virtual void setColor(FACE face, int row, int col, COLOR color)=0;
+
+    /*
+     * Returns the first letter of the given COLOR
+     * Eg: For COLOR::GREEN, it returns 'G'
+     */
+    static char getColorLetter(COLOR color);
+
+    /*
+     * Returns true if the Rubiks Cube is solved, otherwise returns false.
+     */
+    [[nodiscard]] virtual bool isSolved() const=0; /*
+    here nodiscard is used so that if someone doesn't uses its return
+    value it can be pointed out by the compiler
+    */
+
+    /*
+     * Return the move in string format
+     */
+    static string getMove(MOVE ind);
+
+    /*
+     * Print the Rubik Cube in Planar format.
+     *
+     * The cube is laid out as follows.
+     *
+     * The sides:
+     *    U
+     *  L F R B
+     *    D
+     *
+     * Color wise:
+     *
+     *          W W W
+     *          W W W
+     *          W W W
+     *
+     *  G G G   R R R   B B B   O O O
+     *  G G G   R R R   B B B   O O O
+     *  G G G   R R R   B B B   O O O
+     *
+     *          Y Y Y
+     *          Y Y Y
+     *          Y Y Y
+     *
+     * Row and Column Numberings:
+     * rx -> row numbering
+     * cx -> column numbering
+     * bx -> both row and column numbering
+     *
+     *             b0 c1 c2
+     *             r1  .  .
+     *             r2  .  .
+     *
+     *  b0 c1 c2   b0 c1 c2   b0 c1 c2   b0 c1 c2
+     *  r1  .  .   r1  .  .   r1  .  .   r1  .  .
+     *  r2  .  .   r2  .  .   r2  .  .   r2  .  .
+     *
+     *             b0 c1 c2
+     *             r1  .  .
+     *             r2  .  .
+     *
+     */
+    void print() const;  //it will not modify any value since const member function/ promise function
+
+    /*
+     * Randomly shuffle the cube with 'times' moves and returns the moves performed.
+     */
+    vector<GenericRubiksCube::MOVE> randomShuffleCube(unsigned int times);
+
+    /*
+     * Perform moves on the Rubik Cube
+     */
+    GenericRubiksCube &move(MOVE ind);
+
+    /*
+     * Invert a move
+     */
+    GenericRubiksCube &invert(MOVE ind);
+
+    /*
+    * Rotational Moves on the Rubik Cubes
+    *
+    * F, F’, F2,
+    * U, U’, U2,
+    * L, L’, L2,
+    * D, D’, D2,
+    * R, R’, R2,
+    * B, B’, B2
+    */
+    virtual GenericRubiksCube &f()=0;
+
+    virtual GenericRubiksCube &fprime()=0;
+
+    virtual GenericRubiksCube &f2()=0;
+
+    virtual GenericRubiksCube &b()=0;
+
+    virtual GenericRubiksCube &bprime()=0;
+
+    virtual GenericRubiksCube &b2()=0;
+
+    virtual GenericRubiksCube &u()=0;
+
+    virtual GenericRubiksCube &uprime()=0;
+
+    virtual GenericRubiksCube &u2()=0;
+
+    virtual GenericRubiksCube &d()=0;
+
+    virtual GenericRubiksCube &dprime()=0;
+
+    virtual GenericRubiksCube &d2()=0;
+
+    virtual GenericRubiksCube &l()=0;
+
+    virtual GenericRubiksCube &lprime()=0;
+
+    virtual GenericRubiksCube &l2()=0;
+
+    virtual GenericRubiksCube &r()=0;
+
+    virtual GenericRubiksCube &rprime()=0;
+
+    virtual GenericRubiksCube &r2()=0;
+
+    [[nodiscard]] string getCornerColorString(uint8_t ind) const;
+
+    [[nodiscard]] uint8_t getCornerIndex(uint8_t ind) const;
+
+    [[nodiscard]] uint8_t getCornerOrientation(uint8_t ind) const;
+
+public: virtual ~GenericRubiksCube()=default;
+
+};
+
+#endif //RUBIKS_CUBE_SOLVER_GENERICRUBIKSCUBE_H
