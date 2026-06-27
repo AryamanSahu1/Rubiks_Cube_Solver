@@ -51,7 +51,7 @@ public:
     * The rows and columns are 0-indexed.
     * @param Face, row, and column index
     */
-    [[nodiscard]] virtual COLOR getColor(FACE face,unsigned int row, unsigned int col) const=0;
+    [[nodiscard]] virtual COLOR getColor(FACE face,int row, int col) const=0;
 
 
     /*
