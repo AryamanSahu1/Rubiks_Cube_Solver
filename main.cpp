@@ -5,6 +5,7 @@
 #include "model/RubiksCubeBitboard.cpp"
 
 #include "solver/DFSSolver.h"
+#include "solver/BFSSolver.h"
 // TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 using namespace std;
 int main() {
@@ -74,6 +75,34 @@ int main() {
 
     //Testing for bitboard model
 
+    // RubiksCubeBitboard cube3;
+    // vector<GenericRubiksCube::MOVE> shuffleMoves3=cube3.randomShuffleCube(5);
+    // cout << "Shuffled Cube:\n";
+    // cube3.print();
+    // cout << "Shuffle Moves:\n";
+    // for (auto move : shuffleMoves3) cout << GenericRubiksCube::getMove(move) << " ";
+    // cout << "\n\n";
+    //
+    // DFSSolver<RubiksCubeBitboard,HashBitboard> solver3(cube3,8);
+    // vector<GenericRubiksCube::MOVE> solution3=solver3.solve();
+    // cout << "Solution Moves:\n";
+    // for (auto move : solution3)
+    //     cout << GenericRubiksCube::getMove(move) << " ";
+    // cout << "\n\n";
+    //
+    // // Verify the solution
+    // for (auto move : solution3)
+    //     cube3.move(move);
+    //
+    // cout << "Cube after applying solution:\n";
+    // cube3.print();
+    //
+    // if (cube3.isSolved()) cout << "Solved Successfully!\n";
+    // else cout << "Solution Incorrect!\n";
+
+
+
+    //Testing BFS solver
     RubiksCubeBitboard cube3;
     vector<GenericRubiksCube::MOVE> shuffleMoves3=cube3.randomShuffleCube(5);
     cout << "Shuffled Cube:\n";
@@ -82,7 +111,7 @@ int main() {
     for (auto move : shuffleMoves3) cout << GenericRubiksCube::getMove(move) << " ";
     cout << "\n\n";
 
-    DFSSolver<RubiksCubeBitboard,HashBitboard> solver3(cube3,8);
+    BFSSolver<RubiksCubeBitboard,HashBitboard> solver3(cube3);
     vector<GenericRubiksCube::MOVE> solution3=solver3.solve();
     cout << "Solution Moves:\n";
     for (auto move : solution3)
@@ -98,7 +127,6 @@ int main() {
 
     if (cube3.isSolved()) cout << "Solved Successfully!\n";
     else cout << "Solution Incorrect!\n";
-
 
     return 0;
 }
