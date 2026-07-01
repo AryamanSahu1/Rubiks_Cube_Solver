@@ -20,14 +20,12 @@ private:
     bool dfs(int dep) {
         if (rubiksCube.isSolved()) return true;
         if (dep>max_search_depth) return false;
-        visited[rubiksCube]=true;
         for (int i=0;i<18;i++) {
             rubiksCube.move(GenericRubiksCube::MOVE(i));
-            if (!visited[rubiksCube]) {
-                moves.push_back(GenericRubiksCube::MOVE(i));
-                if (dfs(dep+1)) return true;
-                moves.pop_back();
-            }
+            moves.push_back(GenericRubiksCube::MOVE(i));
+            if (dfs(dep+1)) return true;
+            moves.pop_back();
+
             rubiksCube.invert(GenericRubiksCube::MOVE(i));
         }
         return false;
@@ -35,7 +33,6 @@ private:
 
 public:
     T rubiksCube;
-    unordered_map<T, bool, H> visited;
 
     DFSSolver(T _rubiksCube, int _max_search_depth=8) {
         rubiksCube = _rubiksCube;

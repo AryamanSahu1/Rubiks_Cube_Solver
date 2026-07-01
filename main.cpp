@@ -75,7 +75,7 @@ int main() {
     //Testing for bitboard model
 
     RubiksCubeBitboard cube3;
-    vector<GenericRubiksCube::MOVE> shuffleMoves3=cube3.randomShuffleCube(2);
+    vector<GenericRubiksCube::MOVE> shuffleMoves3=cube3.randomShuffleCube(5);
     cout << "Shuffled Cube:\n";
     cube3.print();
     cout << "Shuffle Moves:\n";
