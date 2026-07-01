@@ -14,7 +14,7 @@ private:
         {7,8,3},
         {6,5,4},
     };
-    uint64_t one_8=(1<<8)-1, one_24=(1<<24)-1;
+    uint64_t one_8=(1ULL<<8)-1, one_24=(1ULL<<24)-1;
 
     void rotateFace(int ind) {
         uint64_t side=bitboard[ind];
@@ -28,8 +28,8 @@ private:
         uint64_t clr3=(bitboard[s2]&(one_8<<(8*s2_3)))>>(8*s2_3);
 
         bitboard[s1]=(bitboard[s1] & (~(one_8<<(8*s1_1)))) | (clr1<<(8*s1_1));
-        bitboard[s1]=(bitboard[s1] & (~(one_8<<(8*s1_2)))) | (clr1<<(8*s1_2));
-        bitboard[s1]=(bitboard[s1] & (~(one_8<<(8*s1_3)))) | (clr1<<(8*s1_3));
+        bitboard[s1]=(bitboard[s1] & (~(one_8<<(8*s1_2)))) | (clr2<<(8*s1_2));
+        bitboard[s1]=(bitboard[s1] & (~(one_8<<(8*s1_3)))) | (clr3<<(8*s1_3));
 
     }
 
