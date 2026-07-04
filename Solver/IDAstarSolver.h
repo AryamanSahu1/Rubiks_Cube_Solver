@@ -66,12 +66,11 @@ private:
             if (visited[node.cube]) continue;
 
             visited[node.cube] = true;
-            move_done[node.cube] =
-                    static_cast<GenericRubiksCube::MOVE>(p.second);
+            move_done[node.cube] = static_cast<GenericRubiksCube::MOVE>(p.second);
 
-            if (node.cube.isSolved())
+            if (node.cube.isSolved()) {
                 return make_pair(node.cube, bound);
-
+            }
             node.depth++;
 
             for (int i = 0; i < 18; i++) {
@@ -81,9 +80,7 @@ private:
                 node.cube.move(curr_move);
 
                 if (!visited[node.cube]) {
-
                     node.estimate = 0;     // heuristic = 0
-
                     if (node.depth + node.estimate > bound) {
                         next_bound = min(next_bound,
                                          node.depth + node.estimate);
