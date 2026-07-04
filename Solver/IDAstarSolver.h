@@ -4,6 +4,7 @@
 
 #include <bits/stdc++.h>
 #include "../Model/GenericRubiksCube.h"
+#include "../PatternDatabases/CornerPatternDatabase.h"
 
 #ifndef RUBIKS_CUBE_SOLVER_IDASTARSOLVER_H
 #define RUBIKS_CUBE_SOLVER_IDASTARSOLVER_H
@@ -11,7 +12,7 @@
 template<typename T, typename H>
 class IDAstarSolver {
 private:
-
+    CornerPatternDatabase cornerDB;
     vector<GenericRubiksCube::MOVE> moves;
     unordered_map<T, GenericRubiksCube::MOVE, H> move_done;
     unordered_map<T, bool, H> visited;
@@ -51,7 +52,7 @@ private:
                 vector<pair<Node, int>>,
                 compareCube> pq;
 
-        Node start(rubiksCube, 0, 0);      // heuristic = 0 currently
+        Node start(rubiksCube, 0, cornerDB.getNumMoves(rubiksCube));
         pq.push(make_pair(start, 0));
 
         int next_bound = INT_MAX;
@@ -80,7 +81,7 @@ private:
                 node.cube.move(curr_move);
 
                 if (!visited[node.cube]) {
-                    node.estimate = 0;     // heuristic = 0
+                    node.estimate = cornerDB.getNumMoves(node.cube);
                     if (node.depth + node.estimate > bound) {
                         next_bound = min(next_bound,
                                          node.depth + node.estimate);
@@ -99,13 +100,14 @@ public:
 
     T rubiksCube;
 
-    IDAstarSolver(T _rubiksCube) {
+    IDAstarSolver(T _rubiksCube, string fileName) {
         rubiksCube = _rubiksCube;
+        cornerDB.fromFile(fileName);
     }
 
     vector<GenericRubiksCube::MOVE> solve() {
 
-        int bound = 0;
+        int bound = 1;
 
         auto p = IDAstar(bound);
 
