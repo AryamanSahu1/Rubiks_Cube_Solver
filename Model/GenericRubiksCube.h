@@ -5,7 +5,7 @@
 #ifndef RUBIKS_CUBE_SOLVER_GENERICRUBIKSCUBE_H
 #define RUBIKS_CUBE_SOLVER_GENERICRUBIKSCUBE_H
 
-#include <bits/stdc++.h>
+#include "../bits/stdc++.h"
 
 using namespace std;
 
@@ -83,7 +83,7 @@ public:
     static string getMove(MOVE ind);
 
     /*
-     * Print the Rubik Cube in Planar format.
+     * Print the Rubik's Cube in Planar format.
      *
      * The cube is laid out as follows.
      *

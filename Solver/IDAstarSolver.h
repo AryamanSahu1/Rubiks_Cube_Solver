@@ -2,7 +2,7 @@
 // Created by Aryaman Sahu on 02-07-2026.
 //
 
-#include <bits/stdc++.h>
+#include "../bits/stdc++.h"
 #include "../Model/GenericRubiksCube.h"
 #include "../PatternDatabases/CornerPatternDatabase.h"
 

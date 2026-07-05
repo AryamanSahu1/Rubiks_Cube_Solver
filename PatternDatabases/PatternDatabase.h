@@ -7,7 +7,7 @@
 
 #include "../Model/GenericRubiksCube.h"
 #include "NibbleArray.h"
-#include "bits/stdc++.h"
+#include "../bits/stdc++.h"
 
 using namespace std;
 

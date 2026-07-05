@@ -1,4 +1,7 @@
-#include <bits/stdc++.h>
+#include "bits/stdc++.h"
+#include <opencv2/opencv.hpp>
+
+
 
 //#include "Model/RubiksCube3dArray.cpp"
 //#include "Model/RubiksCube1dArray.cpp"
@@ -10,6 +13,7 @@
 
 #include "PatternDatabases/CornerDBMaker.h"
 // TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+using namespace cv;
 using namespace std;
 int main() {
 //    RubiksCube3dArray object3DArray;
@@ -262,26 +266,154 @@ int main() {
 
     // CornerDBMaker Testing --------------------------------------------------------------------------
 
-    string fileName = "C:\\Users\\BIT\\CLionProjects\\Rubiks-Cube-Solver\\Databases\\cornerDepth5V1.txt";
+    // string fileName = "C:\\Users\\BIT\\CLionProjects\\Rubiks-Cube-Solver\\Databases\\cornerDepth5V1.txt";
+    //
+    // // Code to create Corner Database
+    // CornerDBMaker dbMaker(fileName, 0x99);
+    // dbMaker.bfsAndStore();
+    //
+    // RubiksCubeBitboard cube;
+    // auto shuffleMoves = cube.randomShuffleCube(12);
+    // cube.print();
+    // for (auto move: shuffleMoves) cout << cube.getMove(move) << " ";
+    // cout << "\n";
+    //
+    // IDAstarSolver<RubiksCubeBitboard, HashBitboard> idaStarSolver(cube, fileName);
+    // auto moves = idaStarSolver.solve();
+    //
+    // idaStarSolver.rubiksCube.print();
+    // for (auto move: moves) cout << cube.getMove(move) << " ";
+    // cout << "\n";
 
-    // Code to create Corner Database
-    CornerDBMaker dbMaker(fileName, 0x99);
-    dbMaker.bfsAndStore();
 
-    RubiksCubeBitboard cube;
-    auto shuffleMoves = cube.randomShuffleCube(12);
-    cube.print();
-    for (auto move: shuffleMoves) cout << cube.getMove(move) << " ";
-    cout << "\n";
+    //Testing the solver
+    // string fileName ="C:\\Users\\BIT\\CLionProjects\\Rubiks-Cube-Solver\\Databases\\cornerDepth5V1.txt";
+    //
+    // // Create a solved cube
+    // RubiksCubeBitboard cube;
+    //
+    // // Shuffle it
+    // auto shuffleMoves = cube.randomShuffleCube(12);
+    //
+    // cout << "Shuffled Cube:\n";
+    // cube.print();
+    //
+    // cout << "Shuffle Moves:\n";
+    // for (auto move : shuffleMoves)
+    //     cout << GenericRubiksCube::getMove(move) << " ";
+    // cout << "\n\n";
+    //
+    // // Load Pattern Database and solve
+    // IDAstarSolver<RubiksCubeBitboard, HashBitboard> solver(cube, fileName);
+    // auto solution = solver.solve();
+    //
+    //
+    // cout << "Solution Moves:\n";
+    // for (auto move : solution)
+    //     cout << GenericRubiksCube::getMove(move) << " ";
+    // cout << "\n\n";
+    //
+    // cout << "Cube after solving:\n";
+    // solver.rubiksCube.print();
+    //
+    // if (solver.rubiksCube.isSolved())
+    //     cout << "Solved Successfully!\n";
+    // else
+    //     cout << "Solution Incorrect!\n";
+    //
+    //Testing the solver
+    // string fileName ="C:\\Users\\BIT\\CLionProjects\\Rubiks-Cube-Solver\\Databases\\cornerDepth5V1.txt";
+    //
+    // // Create a solved cube
+    // RubiksCubeBitboard cube;
+    //
+    // // Apply the given scramble
+    // cube.move(GenericRubiksCube::MOVE::RPRIME);
+    // cube.move(GenericRubiksCube::MOVE::U2);
+    // cube.move(GenericRubiksCube::MOVE::F2);
+    // cube.move(GenericRubiksCube::MOVE::D);
+    //
+    // cube.move(GenericRubiksCube::MOVE::L2);
+    // cube.move(GenericRubiksCube::MOVE::BPRIME);
+    // cube.move(GenericRubiksCube::MOVE::U);
+    // cube.move(GenericRubiksCube::MOVE::R2);
+    //
+    // cube.move(GenericRubiksCube::MOVE::FPRIME);
+    // cube.move(GenericRubiksCube::MOVE::D2);
+    // cube.move(GenericRubiksCube::MOVE::L);
+    // cube.move(GenericRubiksCube::MOVE::UPRIME);
+    //
+    // cube.move(GenericRubiksCube::MOVE::B2);
+    // cube.move(GenericRubiksCube::MOVE::RPRIME);
+    // cube.move(GenericRubiksCube::MOVE::F);
+    // cube.move(GenericRubiksCube::MOVE::U2);
+    //
+    // cube.move(GenericRubiksCube::MOVE::LPRIME);
+    // cube.move(GenericRubiksCube::MOVE::D);
+    // cube.move(GenericRubiksCube::MOVE::B);
+    // cube.move(GenericRubiksCube::MOVE::R2);
+    //
+    // cube.move(GenericRubiksCube::MOVE::UPRIME);
+    // cube.move(GenericRubiksCube::MOVE::F2);
+    // cube.move(GenericRubiksCube::MOVE::L2);
+    // cube.move(GenericRubiksCube::MOVE::DPRIME);
+    //
+    // cube.move(GenericRubiksCube::MOVE::BPRIME);
+    // cube.move(GenericRubiksCube::MOVE::U);
+    // cube.move(GenericRubiksCube::MOVE::R);
+    //
+    // cout << "Shuffled Cube:\n";
+    // cube.print();
+    //
+    //
+    // // Load Pattern Database and solve
+    // IDAstarSolver<RubiksCubeBitboard, HashBitboard> solver(cube, fileName);
+    // auto solution = solver.solve();
+    //
+    //
+    // cout << "Solution Moves:\n";
+    // for (auto move : solution)
+    //     cout << GenericRubiksCube::getMove(move) << " ";
+    // cout << "\n\n";
+    //
+    // cout << "Cube after solving:\n";
+    // solver.rubiksCube.print();
+    //
+    // if (solver.rubiksCube.isSolved())
+    //     cout << "Solved Successfully!\n";
+    // else
+    //     cout << "Solution Incorrect!\n";
 
-    IDAstarSolver<RubiksCubeBitboard, HashBitboard> idaStarSolver(cube, fileName);
-    auto moves = idaStarSolver.solve();
 
-    idaStarSolver.rubiksCube.print();
-    for (auto move: moves) cout << cube.getMove(move) << " ";
-    cout << "\n";
+    //Testing OPENCV
+
+    // Open the default camera (usually index 0)
+    VideoCapture cap(0);
+    if (!cap.isOpened()) {
+        cerr << "Error: Could not open camera.\n";
+        return -1;
+    }
 
 
+    Mat frame;
+
+
+    while (true) {
+        cap >> frame; // Capture the next frame
+
+
+        if (frame.empty()) break; // Exit if frame not read correctly
+
+
+        imshow("Webcam Feed", frame); // Show the frame in a window
+
+
+        if (waitKey(30) == 27) break; // Exit on ESC key
+    }
+
+
+    cap.release();           // Release the camera resource
+    destroyAllWindows();     // Close any OpenCV windows
     return 0;
 }
     // TIP See CLion help at <a href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>. Also, you can try interactive lessons for CLion by selecting 'Help | Learn IDE Features' from the main menu.

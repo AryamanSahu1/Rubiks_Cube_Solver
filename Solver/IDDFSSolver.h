@@ -2,7 +2,7 @@
 // Created by Aryaman Sahu on 01-07-2026.
 //
 
-#include <bits/stdc++.h>
+#include "../bits/stdc++.h"
 
 #include "DFSSolver.h"
 #include "../Model/GenericRubiksCube.h"

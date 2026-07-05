@@ -3,7 +3,10 @@ project(Rubiks_Cube_Solver)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(Rubiks_Cube_Solver main.cpp
+find_package(OpenCV REQUIRED)
+
+add_executable(Rubiks_Cube_Solver
+        main.cpp
         Model/GenericRubiksCube.cpp
         Model/GenericRubiksCube.h
         Model/RubiksCube3DArray.cpp
@@ -23,4 +26,10 @@ add_executable(Rubiks_Cube_Solver main.cpp
         PatternDatabases/CornerPatternDatabase.h
         PatternDatabases/PermutationIndexer.h
         PatternDatabases/CornerDBMaker.cpp
-        PatternDatabases/CornerDBMaker.h)
+        PatternDatabases/CornerDBMaker.h
+        bits/stdc++.h
+)
+
+target_include_directories(Rubiks_Cube_Solver PRIVATE ${OpenCV_INCLUDE_DIRS})
+
+target_link_libraries(Rubiks_Cube_Solver PRIVATE ${OpenCV_LIBS})
