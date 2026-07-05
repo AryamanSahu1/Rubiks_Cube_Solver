@@ -1,80 +1,305 @@
 # Rubik's Cube Solver
 
-A C++ project for modeling a Rubik's Cube, applying moves, and exploring multiple solving strategies. The repository is structured as a research-oriented implementation inspired by the work of Richard Korf, with an emphasis on heuristic-guided search and the practical implementation of IDA* with corner-based pattern database heuristics.
+A high-performance Rubik's Cube Solver implemented completely in modern C++ using multiple cube representations and state-space search algorithms including **DFS**, **BFS**, and **Korf's IDA\*** with **Corner Pattern Databases**.
 
-## Overview
+The project was built with a strong focus on **Object-Oriented Design**, **Low-Level Design**, **algorithmic optimization**, and **memory-efficient state representation**.
 
-This project provides:
-
-- A shared cube abstraction through `GenericRubiksCube`
-- Multiple cube implementations with different internal representations
-- Search-based solvers such as DFS, BFS, IDDFS, and IDA*
-- Pattern database support for corner-based heuristics derived from the principles of modern Rubik's Cube search research
-- A sample driver program demonstrating the available functionality
-
-## Project Structure
-
-- [main.cpp](main.cpp) – Example driver code and commented demonstrations
-- [Model/](Model/) – Cube model implementations and shared interfaces
-  - [Model/GenericRubiksCube.h](Model/GenericRubiksCube.h) – Common cube API and move definitions
-  - [Model/RubiksCube3DArray.cpp](Model/RubiksCube3DArray.cpp) – 3D array-based cube implementation
-  - [Model/RubiksCube1DArray.cpp](Model/RubiksCube1DArray.cpp) – 1D array-based cube implementation
-  - [Model/RubiksCubeBitboard.cpp](Model/RubiksCubeBitboard.cpp) – Bitboard-based cube implementation
-- [Solver/](Solver/) – Search algorithms for solving cube states
-  - [Solver/DFSSolver.h](Solver/DFSSolver.h)
-  - [Solver/BFSSolver.h](Solver/BFSSolver.h)
-  - [Solver/IDDFSSolver.h](Solver/IDDFSSolver.h)
-  - [Solver/IDAstarSolver.h](Solver/IDAstarSolver.h)
-- [PatternDatabases/](PatternDatabases/) – Pattern database generation and related utilities
-- [Databases/](Databases/) – Stored database files such as [Databases/cornerDepth5V1.txt](Databases/cornerDepth5V1.txt)
+---
 
 ## Features
 
-- Cube initialization and solved-state detection
-- Move application and inversion for all standard face turns
-- Random cube shuffling for testing and experimentation
-- Multiple solver strategies with different trade-offs
-- An IDA* implementation guided by corner heuristics for efficient search
-- Corner pattern database support for guiding search
+- Multiple Rubik's Cube Representations
+  - 3D Array Representation
+  - 1D Array Representation
+  - Bitboard Representation (64-bit packed encoding)
 
-## Requirements
+- Complete Cube Operations
+  - All 18 standard cube moves
+  - Move inversion
+  - Random scrambling
+  - Solved-state verification
 
-- A C++23-compatible compiler
-- CMake
-- A recent CMake version is required by the current project configuration
+- Search Algorithms
+  - Depth First Search (DFS)
+  - Breadth First Search (BFS)
+  - Iterative Deepening A* (IDA*)
 
-## Build Instructions
+- Heuristic Search
+  - Corner Pattern Database
+  - Pattern Database generation using BFS
+  - Binary serialization/deserialization of databases
+  - Memory-optimized nibble array storage (4-bit per entry)
 
-From the repository root:
+- Performance Optimizations
+  - Bitboard based cube representation
+  - Custom hash functions for unordered containers
+  - Permutation ranking for compact indexing
+  - Corner orientation encoding
+  - Compressed heuristic database
 
-```bash
-cmake -S . -B build
-cmake --build build
+---
+
+# Algorithms Implemented
+
+| Algorithm | Purpose |
+|-----------|---------|
+| DFS | Exhaustive depth-limited search |
+| BFS | Optimal shortest-path search |
+| IDA* | Optimal heuristic-guided search |
+| Pattern Database BFS | Offline heuristic generation |
+| Permutation Ranking | Unique indexing of cube states |
+| Corner Orientation Encoding | Compact representation of orientations |
+
+---
+
+# Project Architecture
+
+```
+                    GenericRubiksCube
+                           ▲
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+        │                  │                  │
+ RubiksCube3DArray  RubiksCube1DArray  RubiksCubeBitboard
+        │                  │                  │
+        └──────────────────┼──────────────────┘
+                           │
+                 Search Algorithms
+          ┌────────────┬──────────────┬─────────────┐
+          │            │              │
+         DFS          BFS           IDA*
+                                         │
+                                         ▼
+                           Corner Pattern Database
+                                         │
+                                         ▼
+                              Nibble Array Storage
 ```
 
-### Build Note
+---
 
-The project currently declares `cmake_minimum_required(VERSION 4.2)`. In the provided environment, the available CMake version was 3.28.3, so configuration failed until a newer CMake binary is available.
+# Cube Representations
 
-## Running the Program
+### 3D Array
 
-After building:
-
-```bash
-./build/Rubiks_Cube_Solver
+```
+char cube[6][3][3]
 ```
 
-The sample driver in [main.cpp](main.cpp) contains many commented examples. Uncomment the section you want to explore to test cube operations, shuffling, and solver behavior.
+- Simple and intuitive implementation
+- Easy to visualize
+- Useful for debugging
 
-## Usage Notes
+---
 
-The repository is best suited for:
+### 1D Array
 
-- Understanding Rubik's Cube state representation
-- Comparing solver strategies
-- Exploring heuristic-based search
-- Extending the project with new cube implementations or databases
+```
+char cube[54]
+```
 
-## License
+- Better cache locality
+- Reduced memory overhead
+- Faster indexing
 
-No license file is currently included in the repository.
+---
+
+### Bitboard Representation
+
+```
+uint64_t bitboard[6]
+```
+
+Each face is packed into a 64-bit integer where every sticker occupies one byte.
+
+Advantages:
+
+- Extremely compact
+- Fast bitwise operations
+- Efficient move execution
+- Excellent hashing performance
+
+---
+
+# Pattern Database
+
+The heuristic is generated using a **Corner Pattern Database**.
+
+Implemented features:
+
+- Corner permutation indexing
+- Corner orientation indexing
+- Permutation ranking
+- Binary database serialization
+- Binary database loading
+- Nibble-compressed storage
+
+Database index:
+
+```
+Index = PermutationRank × 3⁷ + OrientationRank
+```
+
+---
+
+# Memory Optimization
+
+Instead of storing one byte for every database entry,
+
+the project implements a custom **Nibble Array**.
+
+```
+1 byte
+
++--------+--------+
+| 4 bits | 4 bits |
++--------+--------+
+
+stores
+
+2 heuristic values
+```
+
+This reduces the heuristic database memory usage by approximately **50%**.
+
+---
+
+# Object-Oriented Design
+
+The project demonstrates several OOP concepts:
+
+- Abstraction
+- Runtime Polymorphism
+- Inheritance
+- Virtual Interfaces
+- Composition
+- Operator Overloading
+- Template Programming
+
+Example:
+
+```
+GenericRubiksCube
+        ▲
+        │
+Multiple Cube Representations
+
+↓
+
+Search algorithms work on any representation
+without changing a single line of solver code.
+```
+
+---
+
+# Low-Level Design
+
+The codebase follows a modular architecture where each component has a single responsibility.
+
+| Component | Responsibility |
+|-----------|---------------|
+| GenericRubiksCube | Abstract cube interface |
+| Cube Models | State representation |
+| Search Solvers | Search algorithms |
+| Pattern Database | Heuristic storage |
+| NibbleArray | Memory compression |
+| PermutationIndexer | State ranking |
+| CornerDBMaker | Offline heuristic generation |
+
+---
+
+# Technologies Used
+
+- Modern C++
+- STL
+- Templates
+- Bit Manipulation
+- Binary File I/O
+- Hashing
+- Object-Oriented Programming
+
+---
+
+# Performance-Oriented Techniques
+
+- Bitboard Encoding
+- Custom Hash Functions
+- State Compression
+- Permutation Ranking
+- Pattern Databases
+- Memory-efficient Nibble Storage
+- Heuristic-guided Search
+
+---
+
+# Future Improvements
+
+- Edge Pattern Database
+- Full Korf Two-Pattern Heuristic
+- Parallel Pattern Database Generation
+- SIMD Optimizations
+- Multi-threaded Search
+- God's Number Verification
+- Benchmark Suite
+
+---
+
+# Learning Outcomes
+
+This project explores several advanced Computer Science topics:
+
+- State Space Search
+- Graph Search Algorithms
+- Heuristic Search
+- Artificial Intelligence
+- Bit Manipulation
+- Memory Optimization
+- Data Compression
+- Algorithm Design
+- Object-Oriented Design
+- Low-Level System Design
+
+---
+
+# Repository Structure
+
+```
+Rubiks-Cube-Solver
+│
+├── Model/
+│   ├── GenericRubiksCube
+│   ├── RubiksCube3DArray
+│   ├── RubiksCube1DArray
+│   └── RubiksCubeBitboard
+│
+├── Solvers/
+│   ├── DFS
+│   ├── BFS
+│   └── IDAStar
+│
+├── PatternDatabases/
+│   ├── PatternDatabase
+│   ├── CornerPatternDatabase
+│   ├── CornerDBMaker
+│   ├── PermutationIndexer
+│   └── NibbleArray
+│
+└── main.cpp
+```
+
+---
+
+# Highlights
+
+- Implemented **three independent Rubik's Cube representations**.
+- Developed reusable search algorithms using **template-based generic programming**.
+- Built a **memory-compressed heuristic database** using custom nibble arrays.
+- Implemented **Korf's IDA\*** search with Pattern Database heuristics.
+- Designed a modular architecture allowing different cube representations to plug into the same solver.
+- Optimized state storage using **bitboards**, **custom hashing**, and **permutation ranking**.
+
+---
+
+## Author
+
+**Aryaman Sahu**
