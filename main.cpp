@@ -1,160 +1,285 @@
-#include <iostream>
 #include <bits/stdc++.h>
-#include "model/RubiksCube3DArray.cpp"
-#include "model/RubiksCube1DArray.cpp"
-#include "model/RubiksCubeBitboard.cpp"
 
-#include "solver/DFSSolver.h"
-#include "solver/BFSSolver.h"
-#include "solver/IDDFSSolver.h"
+//#include "Model/RubiksCube3dArray.cpp"
+//#include "Model/RubiksCube1dArray.cpp"
+//#include "Model/RubiksCubeBitboard.cpp"
+#include "Solver/DFSSolver.h"
+#include "Solver/BFSSolver.h"
+#include "Solver/IDDFSSolver.h"
+#include "Solver/IDAstarSolver.h"
+
+#include "PatternDatabases/CornerDBMaker.h"
 // TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 using namespace std;
 int main() {
-    // Testing DFS Solver
+//    RubiksCube3dArray object3DArray;
+//    RubiksCube1dArray object1dArray;
+//    RubiksCubeBitboard objectBitboard;
+//
+//    object3DArray.print();
+//
+//    if (object3DArray.isSolved()) cout << "SOLVED\n\n";
+//    else cout << "NOT SOLVED\n\n";
+//
+//    if (object1dArray.isSolved()) cout << "SOLVED\n\n";
+//    else cout << "NOT SOLVED\n\n";
+//
+//    if (objectBitboard.isSolved()) cout << "SOLVED\n\n";
+//    else cout << "NOT SOLVED\n\n";
+//
+//    objectBitboard.u();
+//    object3DArray.u();
+//    object1dArray.u();
+//    objectBitboard.print();
+//    object3DArray.print();
+//    object1dArray.print();
+//
+//    objectBitboard.l();
+//    object3DArray.l();
+//    object1dArray.l();
+//    objectBitboard.print();
+//    object3DArray.print();
+//    object1dArray.print();
+//
+//    objectBitboard.f();
+//    object3DArray.f();
+//    object1dArray.f();
+//    objectBitboard.print();
+//    object3DArray.print();
+//    object1dArray.print();
+//
+//    objectBitboard.r();
+//    object3DArray.r();
+//    object1dArray.r();
+//    objectBitboard.print();
+//    object3DArray.print();
+//    object1dArray.print();
+//
+//    objectBitboard.b();
+//    object3DArray.b();
+//    object1dArray.b();
+//    objectBitboard.print();
+//    object3DArray.print();
+//    object1dArray.print();
+//
+//    objectBitboard.d();
+//    object3DArray.d();
+//    object1dArray.d();
+//    objectBitboard.print();
+//    object3DArray.print();
+//    object1dArray.print();
+//
+//    if (object3DArray.isSolved()) cout << "SOLVED\n\n";
+//    else cout << "NOT SOLVED\n\n";
+//
+//    if (object1dArray.isSolved()) cout << "SOLVED\n\n";
+//    else cout << "NOT SOLVED\n\n";
+//
+//    if (objectBitboard.isSolved()) cout << "SOLVED\n\n";
+//    else cout << "NOT SOLVED\n\n";
+//
+//    objectBitboard.dPrime();
+//    object3DArray.dPrime();
+//    object1dArray.dPrime();
+//    objectBitboard.print();
+//    object3DArray.print();
+//    object1dArray.print();
+//
+//    objectBitboard.bPrime();
+//    object3DArray.bPrime();
+//    object1dArray.bPrime();
+//    objectBitboard.print();
+//    object3DArray.print();
+//    object1dArray.print();
+//
+//    objectBitboard.rPrime();
+//    object3DArray.rPrime();
+//    object1dArray.rPrime();
+//    objectBitboard.print();
+//    object3DArray.print();
+//    object1dArray.print();
+//
+//    objectBitboard.fPrime();
+//    object3DArray.fPrime();
+//    object1dArray.fPrime();
+//    objectBitboard.print();
+//    object3DArray.print();
+//    object1dArray.print();
+//
+//    objectBitboard.lPrime();
+//    object3DArray.lPrime();
+//    object1dArray.lPrime();
+//    objectBitboard.print();
+//    object3DArray.print();
+//    object1dArray.print();
+//
+//    objectBitboard.uPrime();
+//    object3DArray.uPrime();
+//    object1dArray.uPrime();
+//    objectBitboard.print();
+//    object3DArray.print();
+//    object1dArray.print();
+//
+//    if (object3DArray.isSolved()) cout << "SOLVED\n\n";
+//    else cout << "NOT SOLVED\n\n";
+//
+//    if (object1dArray.isSolved()) cout << "SOLVED\n\n";
+//    else cout << "NOT SOLVED\n\n";
+//
+//    if (objectBitboard.isSolved()) cout << "SOLVED\n\n";
+//    else cout << "NOT SOLVED\n\n";
 
-    //Testing for 3D array Model
-    // RubiksCube3DArray cube1;
+    // Create two Cubes ------------------------------------------------------------------------------------------
 
-    // DFSSolver<RubiksCube1DArray,Hash1d> solver2(cube2,8);
-    // DFSSolver<RubiksCubeBitboard,HashBitboard> solver3(cube3,8);
+//    RubiksCube3dArray cube1;
+//    RubiksCube3dArray cube2;
 
-    // vector<GenericRubiksCube::MOVE> shuffleMoves1=cube1.randomShuffleCube(4);
-    // cout << "Shuffled Cube:\n";
-    // cube1.print();
-    // cout << "Shuffle Moves:\n";
-    // for (auto move : shuffleMoves1) cout << GenericRubiksCube::getMove(move) << " ";
-    // cout << "\n\n";
-    //
-    // DFSSolver<RubiksCube3DArray,Hash3d> solver1(cube1,8);
-    // vector<GenericRubiksCube::MOVE> solution1=solver1.solve();
-    // cout << "Solution Moves:\n";
-    // for (auto move : solution1)
-    //     cout << GenericRubiksCube::getMove(move) << " ";
-    // cout << "\n\n";
-    //
-    // // Verify the solution
-    // for (auto move : solution1)
-    //     cube1.move(move);
-    //
-    // cout << "Cube after applying solution:\n";
-    // cube1.print();
-    //
-    // if (cube1.isSolved()) cout << "Solved Successfully!\n";
-    // else cout << "Solution Incorrect!\n";
+//    RubiksCube1dArray cube1;
+//    RubiksCube1dArray cube2;
+
+//    RubiksCubeBitboard cube1;
+//    RubiksCubeBitboard cube2;
 
 
+//  Equality and assignment of cubes --------------------------------------------------------------------------
+
+//    if(cube1 == cube2) cout << "Is equal\n";
+//    else cout << "Not Equal\n";
+//
+//    cube1.randomShuffleCube(1);
+//
+//    if(cube1 == cube2) cout << "Is equal\n";
+//    else cout << "Not Equal\n";
+//
+//    cube2 = cube1;
+//
+//    if(cube1 == cube2) cout << "Is equal\n";
+//    else cout << "Not Equal\n";
 
 
-    //Testing for 1D array Model
-
-    // RubiksCube1DArray cube2;
-    //
-    // vector<GenericRubiksCube::MOVE> shuffleMoves2=cube2.randomShuffleCube(2);
-    // cout << "Shuffled Cube:\n";
-    // cube2.print();
-    // cout << "Shuffle Moves:\n";
-    // for (auto move : shuffleMoves2) cout << GenericRubiksCube::getMove(move) << " ";
-    // cout << "\n\n";
-    //
-    // DFSSolver<RubiksCube1DArray,Hash1d> solver2(cube2,8);
-    // vector<GenericRubiksCube::MOVE> solution2=solver2.solve();
-    // cout << "Solution Moves:\n";
-    // for (auto move : solution2)
-    //     cout << GenericRubiksCube::getMove(move) << " ";
-    // cout << "\n\n";
-    //
-    // // Verify the solution
-    // for (auto move : solution2)
-    //     cube2.move(move);
-    //
-    // cout << "Cube after applying solution:\n";
-    // cube2.print();
-    //
-    // if (cube2.isSolved()) cout << "Solved Successfully!\n";
-    // else cout << "Solution Incorrect!\n";
+//  Unordered_map of Cubes  ------------------------------------------------------------------------------------
 
 
-    //Testing for bitboard model
+//    unordered_map<RubiksCube3dArray, bool, Hash3d> mp1;
 
-    // RubiksCubeBitboard cube3;
-    // vector<GenericRubiksCube::MOVE> shuffleMoves3=cube3.randomShuffleCube(5);
-    // cout << "Shuffled Cube:\n";
-    // cube3.print();
-    // cout << "Shuffle Moves:\n";
-    // for (auto move : shuffleMoves3) cout << GenericRubiksCube::getMove(move) << " ";
-    // cout << "\n\n";
-    //
-    // DFSSolver<RubiksCubeBitboard,HashBitboard> solver3(cube3,8);
-    // vector<GenericRubiksCube::MOVE> solution3=solver3.solve();
-    // cout << "Solution Moves:\n";
-    // for (auto move : solution3)
-    //     cout << GenericRubiksCube::getMove(move) << " ";
-    // cout << "\n\n";
-    //
-    // // Verify the solution
-    // for (auto move : solution3)
-    //     cube3.move(move);
-    //
-    // cout << "Cube after applying solution:\n";
-    // cube3.print();
-    //
-    // if (cube3.isSolved()) cout << "Solved Successfully!\n";
-    // else cout << "Solution Incorrect!\n";
+//    unordered_map<RubiksCube1dArray, bool, Hash1d> mp1;
+
+//    unordered_map<RubiksCubeBitboard, bool, HashBitboard> mp1;
+//
+//    mp1[cube1] = true;
+//    cube2.randomShuffleCube(8);
+//    if (mp1[cube1]) cout << "Cube1 is present\n";
+//    else cout << "Cube1 is not present\n";
+//
+//    if (mp1[cube2]) cout << "Cube2 is present\n";
+//    else cout << "Cube2 is not present\n";
+//
+
+// DFS Solver Testing __________________________________________________________________________________________
+//    RubiksCube3dArray cube;
+//    cube.print();
+//
+//    vector<RubiksCube::MOVE> shuffle_moves = cube.randomShuffleCube(6);
+//    for (auto move: shuffle_moves) cout << cube.getMove(move) << " ";
+//    cout << "\n";
+//    cube.print();
+//
+//    DFSSolver<RubiksCube3dArray, Hash3d> dfsSolver(cube, 8);
+//    vector<RubiksCube::MOVE> solve_moves = dfsSolver.solve();
+//
+//    for (auto move: solve_moves) cout << cube.getMove(move) << " ";
+//    cout << "\n";
+//    dfsSolver.rubiksCube.print();
 
 
+//BFS Solver -----------------------------------------------------------------------------------------------------
+//    RubiksCubeBitboard cube;
+//    cube.print();
+//
+//    vector<RubiksCube::MOVE> shuffle_moves = cube.randomShuffleCube(6);
+//    for(auto move: shuffle_moves) cout << cube.getMove(move) << " ";
+//    cout << "\n";
+//    cube.print();
+//
+//    BFSSolver<RubiksCubeBitboard, HashBitboard> bfsSolver(cube);
+//    vector<RubiksCube::MOVE> solve_moves = bfsSolver.solve();
+//
+//    for(auto move: solve_moves) cout << cube.getMove(move) << " ";
+//    cout << "\n";
+//    bfsSolver.rubiksCube.print();
 
-    //Testing BFS solver
-    // RubiksCubeBitboard cube3;
-    // vector<GenericRubiksCube::MOVE> shuffleMoves3=cube3.randomShuffleCube(5);
-    // cout << "Shuffled Cube:\n";
-    // cube3.print();
-    // cout << "Shuffle Moves:\n";
-    // for (auto move : shuffleMoves3) cout << GenericRubiksCube::getMove(move) << " ";
-    // cout << "\n\n";
-    //
-    // BFSSolver<RubiksCubeBitboard,HashBitboard> solver3(cube3);
-    // vector<GenericRubiksCube::MOVE> solution3=solver3.solve();
-    // cout << "Solution Moves:\n";
-    // for (auto move : solution3)
-    //     cout << GenericRubiksCube::getMove(move) << " ";
-    // cout << "\n\n";
-    //
-    // // Verify the solution
-    // for (auto move : solution3)
-    //     cube3.move(move);
-    //
-    // cout << "Cube after applying solution:\n";
-    // cube3.print();
-    //
-    // if (cube3.isSolved()) cout << "Solved Successfully!\n";
-    // else cout << "Solution Incorrect!\n";
-    //
+// IDDFS Solver ----------------------------------------------------------------------------------------------------
+//    RubiksCubeBitboard cube;
+//    cube.print();
+//
+//    vector<RubiksCube::MOVE> shuffle_moves = cube.randomShuffleCube(7);
+//    for (auto move: shuffle_moves) cout << cube.getMove(move) << " ";
+//    cout << "\n";
+//    cube.print();
+//
+//    IDDFSSolver<RubiksCubeBitboard, HashBitboard> iddfsSolver(cube, 7);
+//    vector<RubiksCube::MOVE> solve_moves = iddfsSolver.solve();
+//
+//    for (auto move: solve_moves) cout << cube.getMove(move) << " ";
+//    cout << "\n";
+//    iddfsSolver.rubiksCube.print();
 
-    //Testing IDDFS Solver
-    RubiksCubeBitboard cube3;
-    vector<GenericRubiksCube::MOVE> shuffleMoves3=cube3.randomShuffleCube(9);
-    cout << "Shuffled Cube:\n";
-    cube3.print();
-    cout << "Shuffle Moves:\n";
-    for (auto move : shuffleMoves3) cout << GenericRubiksCube::getMove(move) << " ";
-    cout << "\n\n";
+// IDA* SOLVER ---------------------------------------------------------------------------------------------------
+//    RubiksCubeBitboard cube;
+//    cube.print();
+//
+//    vector<RubiksCube::MOVE> shuffle_moves = cube.randomShuffleCube(5);
+//    for (auto move: shuffle_moves) cout << cube.getMove(move) << " ";
+//    cout << "\n";
+//    cube.print();
+//
+//    IDAstarSolver<RubiksCubeBitboard, HashBitboard> idAstarSolver(cube);
+//    vector<RubiksCube::MOVE> solve_moves = idAstarSolver.solve();
+//    for (auto move: solve_moves) cout << cube.getMove(move) << " ";
+//    cout << "\n";
+//    idAstarSolver.rubiksCube.print();
 
-    IDDFSSolver<RubiksCubeBitboard,HashBitboard> solver3(cube3,10);
-    vector<GenericRubiksCube::MOVE> solution3=solver3.solve();
-    cout << "Solution Moves:\n";
-    for (auto move : solution3)
-        cout << GenericRubiksCube::getMove(move) << " ";
-    cout << "\n\n";
+// CornerPatternDatabase Testing ---------------------------------------------------------------------------------
 
-    // Verify the solution
-    for (auto move : solution3)
-        cube3.move(move);
+//    CornerPatternDatabase cornerDB;
+//    RubiksCubeBitboard cube;
+//    cube.print();
+//
+//    cout << (int)cornerDB.getNumMoves(cube) << "\n";
+//
+//    cornerDB.setNumMoves(cube, 5);
+//
+//    cout << (int)cornerDB.getNumMoves(cube) << "\n";
+//
+//    cube.randomShuffleCube(1);
+//    cube.print();
+//    cout << (int)cornerDB.getNumMoves(cube) << "\n";
+//
+//    cornerDB.setNumMoves(cube, 6);
+//
+//    cout << (int)cornerDB.getNumMoves(cube) << "\n";
 
-    cout << "Cube after applying solution:\n";
-    cube3.print();
 
-    if (cube3.isSolved()) cout << "Solved Successfully!\n";
-    else cout << "Solution Incorrect!\n";
+    // CornerDBMaker Testing --------------------------------------------------------------------------
+
+    string fileName = "C:\\Users\\BIT\\CLionProjects\\Rubiks-Cube-Solver\\Databases\\cornerDepth5V1.txt";
+
+    // Code to create Corner Database
+    CornerDBMaker dbMaker(fileName, 0x99);
+    dbMaker.bfsAndStore();
+
+    RubiksCubeBitboard cube;
+    auto shuffleMoves = cube.randomShuffleCube(12);
+    cube.print();
+    for (auto move: shuffleMoves) cout << cube.getMove(move) << " ";
+    cout << "\n";
+
+    IDAstarSolver<RubiksCubeBitboard, HashBitboard> idaStarSolver(cube, fileName);
+    auto moves = idaStarSolver.solve();
+
+    idaStarSolver.rubiksCube.print();
+    for (auto move: moves) cout << cube.getMove(move) << " ";
+    cout << "\n";
 
 
     return 0;
