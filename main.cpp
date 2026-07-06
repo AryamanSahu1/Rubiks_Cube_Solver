@@ -1,6 +1,4 @@
 #include "bits/stdc++.h"
-#include <opencv2/opencv.hpp>
-
 
 
 //#include "Model/RubiksCube3dArray.cpp"
@@ -10,10 +8,10 @@
 #include "Solver/BFSSolver.h"
 #include "Solver/IDDFSSolver.h"
 #include "Solver/IDAstarSolver.h"
+#include "Scanner/CubeScanner.h"
 
 #include "PatternDatabases/CornerDBMaker.h"
 // TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-using namespace cv;
 using namespace std;
 int main() {
 //    RubiksCube3dArray object3DArray;
@@ -286,41 +284,43 @@ int main() {
     // cout << "\n";
 
 
-    //Testing the solver
-    // string fileName ="C:\\Users\\BIT\\CLionProjects\\Rubiks-Cube-Solver\\Databases\\cornerDepth5V1.txt";
-    //
-    // // Create a solved cube
-    // RubiksCubeBitboard cube;
-    //
-    // // Shuffle it
-    // auto shuffleMoves = cube.randomShuffleCube(12);
-    //
-    // cout << "Shuffled Cube:\n";
-    // cube.print();
-    //
-    // cout << "Shuffle Moves:\n";
-    // for (auto move : shuffleMoves)
-    //     cout << GenericRubiksCube::getMove(move) << " ";
-    // cout << "\n\n";
-    //
-    // // Load Pattern Database and solve
-    // IDAstarSolver<RubiksCubeBitboard, HashBitboard> solver(cube, fileName);
-    // auto solution = solver.solve();
-    //
-    //
-    // cout << "Solution Moves:\n";
-    // for (auto move : solution)
-    //     cout << GenericRubiksCube::getMove(move) << " ";
-    // cout << "\n\n";
-    //
-    // cout << "Cube after solving:\n";
-    // solver.rubiksCube.print();
-    //
-    // if (solver.rubiksCube.isSolved())
-    //     cout << "Solved Successfully!\n";
-    // else
-    //     cout << "Solution Incorrect!\n";
-    //
+    // Testing the solver
+     // string fileName ="C:\\Users\\BIT\\CLionProjects\\Rubiks-Cube-Solver\\Databases\\cornerDepth5V1.txt";
+     //
+     // // Create a solved cube
+     // RubiksCubeBitboard cube;
+     //
+     // // Shuffle it
+     // auto shuffleMoves = cube.randomShuffleCube(13);
+     //
+     // cout << "Shuffled Cube:\n";
+     // cube.print();
+     //
+     // cout << "Shuffle Moves:\n";
+     // for (auto move : shuffleMoves)
+     //     cout << GenericRubiksCube::getMove(move) << " ";
+     // cout << "\n\n";
+     //
+     // // Load Pattern Database and solve
+     // IDAstarSolver<RubiksCubeBitboard, HashBitboard> solver(cube, fileName);
+     // auto solution = solver.solve();
+     //
+     //
+     // cout << "Solution Moves:\n";
+     // for (auto move : solution)
+     //     cout << GenericRubiksCube::getMove(move) << " ";
+     // cout << "\n\n";
+     //
+     // cout << "Cube after solving:\n";
+     // solver.rubiksCube.print();
+     //
+     // if (solver.rubiksCube.isSolved())
+     //     cout << "Solved Successfully!\n";
+     // else
+     //     cout << "Solution Incorrect!\n";
+     //
+     //
+
     //Testing the solver
     // string fileName ="C:\\Users\\BIT\\CLionProjects\\Rubiks-Cube-Solver\\Databases\\cornerDepth5V1.txt";
     //
@@ -385,35 +385,24 @@ int main() {
     //     cout << "Solution Incorrect!\n";
 
 
-    //Testing OPENCV
+    // CubeScanner Testing ----------------------------------------------------------------------------------
 
-    // Open the default camera (usually index 0)
-    VideoCapture cap(0);
-    if (!cap.isOpened()) {
-        cerr << "Error: Could not open camera.\n";
-        return -1;
-    }
+    string fileName = "C:\\Users\\BIT\\CLionProjects\\Rubiks-Cube-Solver\\Databases\\cornerDepth5V1.txt";
 
+    CubeScanner scanner(0);
+    RubiksCubeBitboard cube;
+    scanner.scan(cube);
+    cout<<"Scanned Cube"<<'\n'<<'\n';
+    cube.print();
 
-    Mat frame;
+    IDAstarSolver<RubiksCubeBitboard, HashBitboard> idAstarSolver(cube, fileName);
+    auto solve_moves = idAstarSolver.solve();
 
+    cout<<"Solved Cube"<<'\n'<<'\n';
+    for (auto move: solve_moves) cout << cube.getMove(move) << " ";
+    cout << "\n";
+    idAstarSolver.rubiksCube.print();
 
-    while (true) {
-        cap >> frame; // Capture the next frame
-
-
-        if (frame.empty()) break; // Exit if frame not read correctly
-
-
-        imshow("Webcam Feed", frame); // Show the frame in a window
-
-
-        if (waitKey(30) == 27) break; // Exit on ESC key
-    }
-
-
-    cap.release();           // Release the camera resource
-    destroyAllWindows();     // Close any OpenCV windows
     return 0;
 }
     // TIP See CLion help at <a href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>. Also, you can try interactive lessons for CLion by selecting 'Help | Learn IDE Features' from the main menu.

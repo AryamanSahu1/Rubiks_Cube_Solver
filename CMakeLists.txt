@@ -28,6 +28,8 @@ add_executable(Rubiks_Cube_Solver
         PatternDatabases/CornerDBMaker.cpp
         PatternDatabases/CornerDBMaker.h
         bits/stdc++.h
+        Scanner/CubeScanner.cpp
+        Scanner/CubeScanner.h
 )
 
 target_include_directories(Rubiks_Cube_Solver PRIVATE ${OpenCV_INCLUDE_DIRS})
