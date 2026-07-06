@@ -85,32 +85,86 @@ The project includes an integrated Cube Scanner capable of
 
 
 
-# Software Architecture
+# Project Architecture
 
 ```text
-                    Webcam
-                       │
-                       ▼
-              OpenCV Cube Scanner
-                       │
-                       ▼
-             Color Classification
-                       │
-                       ▼
-          Generic Rubik's Cube Model
-                       │
-       ┌───────────────┼───────────────┐
-       │               │               │
-   3D Array       1D Array       Bitboard
-                       │
-                       ▼
-          Corner Pattern Database
-                       │
-                       ▼
-               Korf's IDA* Solver
-                       │
-                       ▼
-             Optimal Solution Moves
+                    +----------------------------------+
+                    |      GenericRubiksCube           |
+                    |      (Abstract Interface)        |
+                    +----------------+-----------------+
+                                     │
+          ┌──────────────────────────┼──────────────────────────┐
+          │                          │                          │
+          ▼                          ▼                          ▼
++--------------------+     +--------------------+     +--------------------+
+| RubiksCube3DArray  |     | RubiksCube1DArray  |     | RubiksCubeBitboard |
++--------------------+     +--------------------+     +--------------------+
+          │                          │                          │
+          └───────────────┬──────────┴───────────────┬──────────┘
+                          │                          │
+                          ▼                          ▼
+              +-----------------------+   +------------------------+
+              | Search Algorithms     |   | Pattern Database       |
+              +-----------------------+   +------------------------+
+              | DFS                   |   | Nibble Array           |
+              | BFS                   |   | Pattern Database       |
+              | IDDFS                 |   | Corner Pattern DB      |
+              | Korf's IDA*           |   | Corner DB Generator    |
+              +-----------+-----------+   | Permutation Indexer    |
+                          |               +-----------+------------+
+                          │                           │
+                          └──────────────┬────────────┘
+                                         │
+                                         ▼
+                              +-----------------------+
+                              | OpenCV Cube Scanner   |
+                              +-----------------------+
+                              | Webcam Capture        |
+                              | HSV Color Detection   |
+                              | Cube Reconstruction   |
+                              +-----------------------+
+```
+
+---
+
+# Execution Pipeline
+
+```text
+                        Physical Rubik's Cube
+                                │
+                                ▼
+                        OpenCV Cube Scanner
+                                │
+                                ▼
+                        Color Classification
+                                │
+                                ▼
+                        Cube Reconstruction
+                                │
+                                ▼
+                        RubiksCubeBitboard
+                                │
+                                ▼
+                 +---------------------------------------------+
+                 |            Korf's IDA* Solver               |
+                 |                                             |
+                 |              Expand Node                    |
+                 |                  │                          |
+                 |                  ▼                          |
+                 |       Query Corner Pattern Database         |
+                 |                  │                          |
+                 |                  ▼                          |
+                 |         Compute f = g + h                   |
+                 |                  │                          |
+                 |                  ▼                          |
+                 |        Continue Search Until Goal           |
+                 +---------------------------------------------+
+                                │
+                                ▼
+                        Optimal Solution Moves
+                                │
+                                ▼
+                            Solved Cube
 ```
 
 ---
@@ -216,8 +270,7 @@ This project is inspired by
 - Larger Pattern Databases
 - Edge Pattern Database
 - Complete Korf Heuristic
-- Move Pruning<img width="1289" height="758" alt="Screenshot 2026-07-07 034352" src="https://github.com/user-attachments/assets/5509164e-2b4b-4f82-89bf-8a3215712a30" />
-
+- Move Pruning
 - Automatic Color Calibration
 - Parallel Pattern Database Generation
 
